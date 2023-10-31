@@ -14,6 +14,11 @@ export default class TeamRouter {
     return this;
   }
 
+  withGetById() {
+    this.router.get('/:id', (req, res) => this.teamController.getTeamById(req, res));
+    return this;
+  }
+
   build() {
     return this.router;
   }

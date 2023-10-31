@@ -31,6 +31,15 @@ describe('Teams Test', () => {
     expect(status).to.equal(200);
     expect(body).to.deep.equal(team);
   });
+
+  it('should return a not found error if team doesn\'t exists', async () => {
+    sinon.stub(SequelizeTeam, 'findByPk').resolves(null);
+
+    const { status, body } = await chai.request(app).get(`/teams/${team.id}`);
+
+    expect(status).to.equal(404);
+    expect(body).to.deep.equal({ message: 'Team not found' });
+  });
   
   afterEach(() => {
     sinon.restore();
