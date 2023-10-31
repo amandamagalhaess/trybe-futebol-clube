@@ -5,7 +5,8 @@ import SequelizeTeam from '../database/models/SequelizeTeam';
 
 // @ts-ignore
 import chaiHttp = require('chai-http');
-import { teams } from './mocks/Teams.mock';
+import { teams, team } from './mocks/Teams.mock';
+
 chai.use(chaiHttp);
 
 const { app } = new App();
@@ -20,5 +21,18 @@ describe('Teams Test', () => {
     expect(status).to.equal(200);
     expect(body).to.deep.equal(teams);
   
+  });
+
+  it('should return a team by id', async () => {
+    sinon.stub(SequelizeTeam, 'findByPk').resolves(team as any);
+
+    const { status, body } = await chai.request(app).get(`/teams/${team.id}`);
+
+    expect(status).to.equal(200);
+    expect(body).to.deep.equal(team);
+  });
+  
+  afterEach(() => {
+    sinon.restore();
   });
 })
