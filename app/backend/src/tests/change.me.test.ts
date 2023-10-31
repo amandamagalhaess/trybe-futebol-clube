@@ -1,45 +1,18 @@
-import * as sinon from 'sinon';
 import * as chai from 'chai';
+import { App } from '../app';
+
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
-import { app } from '../app';
-import Example from '../database/models/ExampleModel';
-
-import { Response } from 'superagent';
-
 chai.use(chaiHttp);
-
 const { expect } = chai;
 
-describe('Seu teste', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe('Testing route /', () => {
 
-  // let chaiHttpResponse: Response;
+  const app = new App().app
 
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
-
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
+    it('Test if the route / is working', async () => {
+      const res = await chai.request(app).get('/');
+      expect(res.body).to.deep.equal({ ok: true });
+    });
   });
-});
