@@ -3,18 +3,18 @@ const user = {
   username: 'test',
   role: 'user',
   email: 'test@test.com',
-  password: 'test',
+  password: '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO',
 }
 
 const users = [user];
 
 const validLoginBody = {
   email: user.email,
-  password: user.password,
+  password: 'secret_user',
 }
 
 const invalidLoginBodyWithoutEmail = {
-  password: user.password,
+  password: 'secret_user',
 }
 
 const invalidLoginBodyWithoutPassword = {

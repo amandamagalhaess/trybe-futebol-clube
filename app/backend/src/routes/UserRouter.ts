@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UserController from '../controllers/UserController';
+import UserMiddleware from '../middlewares/UserMiddleware';
 
 export default class UserRouter {
   private router: Router;
@@ -10,7 +11,12 @@ export default class UserRouter {
   }
 
   withLogin() {
-    this.router.post('/', (req, res) => this.userController.login(req, res));
+    this.router.post(
+      '/',
+      UserMiddleware.verifyIfEmailAndPasswordExists,
+      UserMiddleware.verifyIfEmailAndPasswordAreValid,
+      (req, res) => this.userController.login(req, res),
+    );
     return this;
   }
 
