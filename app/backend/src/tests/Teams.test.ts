@@ -2,10 +2,10 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 import { App } from '../app';
 import SequelizeTeam from '../database/models/SequelizeTeam';
+import { teams, team } from './mocks/Teams.mock';
 
 // @ts-ignore
 import chaiHttp = require('chai-http');
-import { teams, team } from './mocks/Teams.mock';
 
 chai.use(chaiHttp);
 
