@@ -9,22 +9,22 @@ const user = {
 const users = [user];
 
 const validLoginBody = {
-  username: user.username,
+  email: user.email,
   password: user.password,
 }
 
-const invalidLoginBodyWithoutUsername = {
+const invalidLoginBodyWithoutEmail = {
   password: user.password,
 }
 
 const invalidLoginBodyWithoutPassword = {
-  username: user.username,
+  email: user.email,
 }
 
 export {
   user,
   users,
   validLoginBody,
-  invalidLoginBodyWithoutUsername,
+  invalidLoginBodyWithoutEmail,
   invalidLoginBodyWithoutPassword,
 };

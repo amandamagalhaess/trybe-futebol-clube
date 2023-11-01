@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 import { App } from '../app';
 import SequelizeUser from '../database/models/SequelizeUser';
-import { users, user, validLoginBody, invalidLoginBodyWithoutUsername, invalidLoginBodyWithoutPassword } from './mocks/Users.mock';
+import { user, validLoginBody, invalidLoginBodyWithoutPassword, invalidLoginBodyWithoutEmail } from './mocks/Users.mock';
 
 // @ts-ignore
 import chaiHttp = require('chai-http');
@@ -22,8 +22,8 @@ describe('Test Users', () => {
     expect(body).to.have.property('token');
   });
 
-  it('should return a not found error if username doesn\'t exists', async () => {
-    const { status, body } = await chai.request(app).post('/login').send(invalidLoginBodyWithoutUsername);
+  it('should return a not found error if email doesn\'t exists', async () => {
+    const { status, body } = await chai.request(app).post('/login').send(invalidLoginBodyWithoutEmail);
 
     expect(status).to.equal(400);
     expect(body).to.deep.equal({ message: 'All fields must be filled' });
