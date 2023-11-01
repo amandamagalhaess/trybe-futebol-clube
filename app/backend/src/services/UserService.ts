@@ -20,4 +20,10 @@ export default class UserService {
 
     return { status: 'SUCCESSFUL', data: { token } };
   }
+
+  public async getRole(userId: number): Promise<ServiceResponse<{ role: string }>> {
+    const role = await this.userModel.getRole(userId);
+
+    return { status: 'SUCCESSFUL', data: { role } };
+  }
 }
