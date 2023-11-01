@@ -36,6 +36,15 @@ describe('Test Users', () => {
     expect(body).to.deep.equal({ message: 'All fields must be filled' });
   });
 
+  it('should return a unauthorized error if email or password is invalid', async () => {
+    sinon.stub(SequelizeUser, 'findOne').resolves(null);
+
+    const { status, body } = await chai.request(app).post('/login').send(validLoginBody);
+
+    expect(status).to.equal(401);
+    expect(body).to.deep.equal({ message: 'Invalid email or password' });
+  });
+
   afterEach(() => {
     sinon.restore();
   });
