@@ -10,4 +10,18 @@ export default class MatchController {
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
+
+  public async getMatchesByFilter(req: Request, res: Response) {
+    const { inProgress } = req.query;
+
+    const filter: any = {};
+
+    if (inProgress !== undefined) {
+      filter.inProgress = inProgress === 'true';
+    }
+
+    const serviceResponse = await this.matchService.getMatchesByFilter(filter);
+
+    res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
+  }
 }

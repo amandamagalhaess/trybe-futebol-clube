@@ -10,7 +10,13 @@ export default class MatchRouter {
   }
 
   withGetAll() {
-    this.router.get('/', (req, res) => this.matchController.getAllMatches(req, res));
+    this.router.get('/', (req, res) => {
+      if (req.query.inProgress) {
+        this.matchController.getMatchesByFilter(req, res);
+      } else {
+        this.matchController.getAllMatches(req, res);
+      }
+    });
     return this;
   }
 

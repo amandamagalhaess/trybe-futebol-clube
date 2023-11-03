@@ -10,4 +10,10 @@ export default class MatchService {
 
     return { status: 'SUCCESSFUL', data: allMatches };
   }
+
+  public async getMatchesByFilter(filter: any): Promise<ServiceResponse<IMatch[]>> {
+    const matches = await this.matchModel.findByFilter(filter);
+
+    return { status: 'SUCCESSFUL', data: matches };
+  }
 }
