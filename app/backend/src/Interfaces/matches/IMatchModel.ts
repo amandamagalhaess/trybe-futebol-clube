@@ -9,4 +9,5 @@ export interface IMatchModel {
   findByFilter(filter: MatchFilter): Promise<IMatch[]>;
   finishMatch(matchId: number): Promise<ServiceMessage>;
   updateMatch(matchId: number, body: MatchUpdate): Promise<ServiceMessage>;
+  createMatch(match: IMatch): Promise<IMatch>;
 }

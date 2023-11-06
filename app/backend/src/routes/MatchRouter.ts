@@ -39,6 +39,15 @@ export default class MatchRouter {
     return this;
   }
 
+  withCreateMatch() {
+    this.router.post(
+      '/',
+      AuthValidation.validateToken,
+      (req, res) => this.matchController.createMatch(req, res),
+    );
+    return this;
+  }
+
   build() {
     return this.router;
   }

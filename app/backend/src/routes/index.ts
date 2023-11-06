@@ -10,6 +10,10 @@ const matchRouter = new MatchRouter();
 
 router.use('/teams', teamRouter.withGetAll().withGetById().build());
 router.use('/login', userRouter.withLogin().withGetRole().build());
-router.use('/matches', matchRouter.withGetAll().withFinishMatch().withUpdateMatch().build());
+router.use(
+  '/matches',
+  matchRouter.withGetAll().withFinishMatch().withUpdateMatch().withCreateMatch()
+    .build(),
+);
 
 export default router;

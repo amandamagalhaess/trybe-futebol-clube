@@ -61,4 +61,10 @@ export default class MatchModel implements IMatchModel {
     }
     return { message: 'Match not found' };
   }
+
+  async createMatch(match: IMatch): Promise<IMatch> {
+    const newMatch = await this.model.create(match);
+
+    return newMatch;
+  }
 }
