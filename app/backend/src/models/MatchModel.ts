@@ -1,3 +1,4 @@
+import { ServiceMessage } from '../Interfaces/ServiceResponse';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import { IMatch } from '../Interfaces/matches/IMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
@@ -17,7 +18,7 @@ export default class MatchModel implements IMatchModel {
     return dbData;
   }
 
-  async findByFilter(filter: any): Promise<IMatch[]> {
+  async findByFilter(filter: { inProgress?: boolean }): Promise<IMatch[]> {
     const dbData = await this.model.findAll({
       where: filter,
       include: [
@@ -27,5 +28,27 @@ export default class MatchModel implements IMatchModel {
     });
 
     return dbData;
+  }
+
+  async findById(matchId: number): Promise<IMatch | null> {
+    const dbData = await this.model.findOne({
+      where: { id: matchId },
+      include: [
+        { model: SequelizeTeam, as: 'homeTeam', attributes: ['teamName'] },
+        { model: SequelizeTeam, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+    });
+
+    return dbData;
+  }
+
+  async finishMatch(matchId: number): Promise<ServiceMessage> {
+    const match = await this.findById(matchId);
+
+    if (match) {
+      await this.model.update({ inProgress: false }, { where: { id: matchId } });
+      return { message: 'Finished' };
+    }
+    return { message: 'Match not found' };
   }
 }

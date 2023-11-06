@@ -1,5 +1,5 @@
 import MatchModel from '../models/MatchModel';
-import { ServiceResponse } from '../Interfaces/ServiceResponse';
+import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import { IMatch } from '../Interfaces/matches/IMatch';
 
 export default class MatchService {
@@ -11,9 +11,21 @@ export default class MatchService {
     return { status: 'SUCCESSFUL', data: allMatches };
   }
 
-  public async getMatchesByFilter(filter: any): Promise<ServiceResponse<IMatch[]>> {
+  public async getMatchesByFilter(
+    filter: { inProgress?: boolean },
+  ): Promise<ServiceResponse<IMatch[]>> {
     const matches = await this.matchModel.findByFilter(filter);
 
     return { status: 'SUCCESSFUL', data: matches };
+  }
+
+  public async finishMatch(matchId: number): Promise<ServiceResponse<ServiceMessage>> {
+    const modelResponse = await this.matchModel.finishMatch(matchId);
+
+    if (modelResponse.message !== 'Finished') {
+      return { status: 'NOT_FOUND', data: modelResponse };
+    }
+
+    return { status: 'SUCCESSFUL', data: modelResponse };
   }
 }
