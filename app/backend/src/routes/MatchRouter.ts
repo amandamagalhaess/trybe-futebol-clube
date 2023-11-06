@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import MatchController from '../controllers/MatchController';
 import AuthValidation from '../middlewares/AuthValidation';
+import MatchMiddleware from '../middlewares/MatchMiddleware';
 
 export default class MatchRouter {
   private router: Router;
@@ -43,6 +44,7 @@ export default class MatchRouter {
     this.router.post(
       '/',
       AuthValidation.validateToken,
+      MatchMiddleware.matchValidation,
       (req, res) => this.matchController.createMatch(req, res),
     );
     return this;

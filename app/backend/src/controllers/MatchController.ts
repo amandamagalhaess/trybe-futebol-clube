@@ -46,6 +46,10 @@ export default class MatchController {
 
     const serviceResponse = await this.matchService.createMatch(match);
 
+    if (serviceResponse.status === 'NOT_FOUND') {
+      return res.status(404).json(serviceResponse.data);
+    }
+
     res.status(201).json(serviceResponse.data);
   }
 }
