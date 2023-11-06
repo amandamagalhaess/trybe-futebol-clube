@@ -1,7 +1,7 @@
 import { ServiceMessage } from '../Interfaces/ServiceResponse';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import { IMatch } from '../Interfaces/matches/IMatch';
-import { IMatchModel } from '../Interfaces/matches/IMatchModel';
+import { IMatchModel, MatchUpdate } from '../Interfaces/matches/IMatchModel';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 
 export default class MatchModel implements IMatchModel {
@@ -48,6 +48,16 @@ export default class MatchModel implements IMatchModel {
     if (match) {
       await this.model.update({ inProgress: false }, { where: { id: matchId } });
       return { message: 'Finished' };
+    }
+    return { message: 'Match not found' };
+  }
+
+  async updateMatch(matchId: number, body: MatchUpdate): Promise<ServiceMessage> {
+    const match = await this.findById(matchId);
+
+    if (match) {
+      await this.model.update(body, { where: { id: matchId } });
+      return { message: 'Updated' };
     }
     return { message: 'Match not found' };
   }

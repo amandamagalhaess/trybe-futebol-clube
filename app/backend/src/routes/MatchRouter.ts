@@ -30,6 +30,15 @@ export default class MatchRouter {
     return this;
   }
 
+  withUpdateMatch() {
+    this.router.patch(
+      '/:id',
+      AuthValidation.validateToken,
+      (req, res) => this.matchController.updateMatch(req, res),
+    );
+    return this;
+  }
+
   build() {
     return this.router;
   }
