@@ -16,6 +16,13 @@ export default class LeaderboardRouter {
     return this;
   }
 
+  withGetLeaderboardAway() {
+    this.router.get('/away', (req, res) => {
+      this.leaderboardController.getLeaderboardAway(req, res);
+    });
+    return this;
+  }
+
   build() {
     return this.router;
   }

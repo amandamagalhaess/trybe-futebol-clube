@@ -17,6 +17,10 @@ router.use(
   matchRouter.withGetAll().withFinishMatch().withUpdateMatch().withCreateMatch()
     .build(),
 );
-router.use('/leaderboard', leaderboardRouter.withGetLeaderboardHome().build());
+router.use(
+  '/leaderboard',
+  leaderboardRouter.withGetLeaderboardHome().withGetLeaderboardAway()
+    .build(),
+);
 
 export default router;
