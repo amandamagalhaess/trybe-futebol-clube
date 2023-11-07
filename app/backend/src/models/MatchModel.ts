@@ -1,7 +1,7 @@
 import { ServiceMessage } from '../Interfaces/ServiceResponse';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 import { IMatch } from '../Interfaces/matches/IMatch';
-import { IMatchModel, MatchUpdate } from '../Interfaces/matches/IMatchModel';
+import { IMatchModel, MatchFilter, MatchUpdate } from '../Interfaces/matches/IMatchModel';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 
 export default class MatchModel implements IMatchModel {
@@ -18,7 +18,7 @@ export default class MatchModel implements IMatchModel {
     return dbData;
   }
 
-  async findByFilter(filter: { inProgress?: boolean }): Promise<IMatch[]> {
+  async findByFilter(filter: MatchFilter): Promise<IMatch[]> {
     const dbData = await this.model.findAll({
       where: filter,
       include: [
