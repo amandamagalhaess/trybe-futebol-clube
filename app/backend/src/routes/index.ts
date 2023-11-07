@@ -19,7 +19,7 @@ router.use(
 );
 router.use(
   '/leaderboard',
-  leaderboardRouter.withGetLeaderboardHome().withGetLeaderboardAway()
+  leaderboardRouter.withGetLeaderboardHome().withGetLeaderboardAway().withGetLeaderboard()
     .build(),
 );
 

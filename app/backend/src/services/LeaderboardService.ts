@@ -38,4 +38,40 @@ export default class LeaderboardService {
 
     return { status: 'SUCCESSFUL', data: fullLeaderboard };
   }
+
+  private addMissingMatches = (
+    lBoard: ILeaderboard[],
+    lHome: ILeaderboard[],
+    lAway: ILeaderboard[],
+  ): ILeaderboard[] => {
+    const missingMatches = lAway.filter((away) => !lHome.some((home) => home.name === away.name));
+    const leaderboard = lBoard.concat(missingMatches);
+
+    const fullLeaderboard = this.transformLeaderboard(leaderboard);
+    return fullLeaderboard;
+  };
+
+  async getLeaderboard(): Promise<ServiceResponse<ILeaderboard[]>> {
+    const leaderboardHome = await this.leaderboardModel.getLeaderboardHome();
+    const leaderboardAway = await this.leaderboardModel.getLeaderboardAway();
+
+    const leaderboard = leaderboardHome.map((home) => {
+      const awayTeam = leaderboardAway.find((away) => away.name === home.name);
+
+      if (!awayTeam) return home;
+      return {
+        name: home.name,
+        totalPoints: home.totalPoints + awayTeam.totalPoints,
+        totalGames: home.totalGames + awayTeam.totalGames,
+        totalVictories: home.totalVictories + awayTeam.totalVictories,
+        totalDraws: home.totalDraws + awayTeam.totalDraws,
+        totalLosses: home.totalLosses + awayTeam.totalLosses,
+        goalsFavor: home.goalsFavor + awayTeam.goalsFavor,
+        goalsOwn: home.goalsOwn + awayTeam.goalsOwn,
+      };
+    });
+
+    const fullLeaderboard = this.addMissingMatches(leaderboard, leaderboardHome, leaderboardAway);
+    return { status: 'SUCCESSFUL', data: fullLeaderboard };
+  }
 }

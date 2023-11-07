@@ -23,6 +23,13 @@ export default class LeaderboardRouter {
     return this;
   }
 
+  withGetLeaderboard() {
+    this.router.get('/', (req, res) => {
+      this.leaderboardController.getLeaderboard(req, res);
+    });
+    return this;
+  }
+
   build() {
     return this.router;
   }

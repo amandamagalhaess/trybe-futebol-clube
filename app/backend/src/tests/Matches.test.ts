@@ -70,6 +70,18 @@ describe('Matches Test', async () => {
     expect(body).to.deep.equal({ message: 'Updated' });
   });
 
+  it('should not update match', async () => {
+    sinon.stub(SequelizeMatch, 'findOne').resolves(null);
+    sinon.stub(SequelizeUser, 'findOne').resolves(user as any);
+    const { body: {token} } = await chai.request(app).post('/login').send(validLoginBody);
+
+    const { status, body } = await chai.request(app).patch('/matches/1').send({ homeTeamScore: 1, awayTeamScore: 2 })
+    .set('Authorization', `Bearer ${token}`);
+
+    expect(status).to.equal(404);
+    expect(body).to.deep.equal({ message: 'Match not found' });
+  });
+
   it('should create a match', async () => {
     sinon.stub(SequelizeMatch, 'create').resolves(newMatch as any);
     sinon.stub(SequelizeUser, 'findOne').resolves(user as any);
