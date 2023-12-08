@@ -25,7 +25,7 @@ export default class UserRouter {
     this.router.get(
       '/role',
       AuthValidation.validateToken,
-      (req, res) => this.userController.getRole(req, res, res.locals.user.id),
+      (req, res) => this.userController.getRole(req, res),
     );
     return this;
   }

@@ -13,8 +13,9 @@ export default class UserController {
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
 
-  public async getRole(req: Request, res: Response, userId: number) {
-    const serviceResponse = await this.userService.getRole(userId);
+  public async getRole(_req: Request, res: Response) {
+    const { id } = res.locals.user;
+    const serviceResponse = await this.userService.getRole(id);
 
     res.status(mapStatusHTTP(serviceResponse.status)).json(serviceResponse.data);
   }
